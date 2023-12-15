@@ -1,7 +1,9 @@
 package com.example.productservice_wfs.controller;
 
-import com.example.productservice_wfs.dto.CreateProductRequestDTO;
-import com.example.productservice_wfs.fakestoreapi.FakeStoreProductResponse;
+import com.example.productservice_wfs.dto.ProductRequestDTO;
+import com.example.productservice_wfs.dto.ProductResponseDTO;
+import com.example.productservice_wfs.mapper.ProductMapper;
+import com.example.productservice_wfs.models.Product;
 import com.example.productservice_wfs.service.IProductService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -23,40 +25,51 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public HttpEntity<FakeStoreProductResponse> getProductById(@PathVariable("productId") Long productId) throws Exception {
-        FakeStoreProductResponse data = productService.getProductById(productId);
-
+    public HttpEntity<ProductResponseDTO> getProductById(@PathVariable("productId") Long productId)
+            throws Exception {
         try {
+            Product data = productService.getProductById(productId);
             if (Objects.isNull(data)) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             headers.add("class-name", "integrating APIS");
-            return new ResponseEntity<>(data, headers, HttpStatus.OK);
+
+            ProductResponseDTO dto = ProductMapper.getProductResponseDTOFromProduct(data);
+            return new ResponseEntity<>(dto, headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/")
-    public HttpEntity<List<FakeStoreProductResponse>> getAllProducts() {
-        List<FakeStoreProductResponse> responseList = productService.getAllProducts();
+    public HttpEntity<List<ProductResponseDTO>> getAllProducts() {
+        List<Product> products = productService.getAllProducts();
+        List<ProductResponseDTO> responseList = ProductMapper.getProductDTOListFromProducts(products);
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public String createProduct(@RequestBody CreateProductRequestDTO dto) {
+    public String createProduct(@RequestBody ProductRequestDTO dto) {
         //HW
         return "product created.. + " + dto.getProductName();
     }
 
 
     @PatchMapping("/{productId}")
-    public HttpEntity<FakeStoreProductResponse> patchProduct(@PathVariable("productId") Long productId,
-                                                             @RequestBody CreateProductRequestDTO dto) {
-        FakeStoreProductResponse response = productService.patchProduct(productId, dto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public HttpEntity<ProductResponseDTO> patchProduct(@PathVariable("productId") Long productId,
+                                                       @RequestBody ProductRequestDTO dto) throws Exception {
+        try {
+            Product product = productService.patchProduct(productId,
+                    ProductMapper.getProductFromCreateRequestDTO(dto));
+
+            ProductResponseDTO responseDTO = ProductMapper.getProductResponseDTOFromProduct(product);
+            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
 
