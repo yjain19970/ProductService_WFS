@@ -24,31 +24,42 @@ public class ProductController {
 
     @GetMapping("/{productId}")
     public HttpEntity<FakeStoreProductResponse> getProductById(@PathVariable("productId") Long productId) throws Exception {
-        FakeStoreProductResponse data =  productService.getProductById(productId);
+        FakeStoreProductResponse data = productService.getProductById(productId);
 
-        try{
-            if(Objects.isNull(data)){
+        try {
+            if (Objects.isNull(data)) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            MultiValueMap<String,String> headers = new LinkedMultiValueMap<>();
+            MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             headers.add("class-name", "integrating APIS");
-            return new ResponseEntity<>(data,headers, HttpStatus.OK);
-        } catch (Exception e){
+            return new ResponseEntity<>(data, headers, HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/")
-    public HttpEntity<List<FakeStoreProductResponse>> getAllProducts(){
-        List<FakeStoreProductResponse> responseList =  productService.getAllProducts();
+    public HttpEntity<List<FakeStoreProductResponse>> getAllProducts() {
+        List<FakeStoreProductResponse> responseList = productService.getAllProducts();
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public String createProduct(@RequestBody CreateProductRequestDTO dto){
-        return "product created.. + "+ dto.getProductName();
+    public String createProduct(@RequestBody CreateProductRequestDTO dto) {
+        //HW
+        return "product created.. + " + dto.getProductName();
     }
+
+
+    @PatchMapping("/{productId}")
+    public HttpEntity<FakeStoreProductResponse> patchProduct(@PathVariable("productId") Long productId,
+                                                             @RequestBody CreateProductRequestDTO dto) {
+        FakeStoreProductResponse response = productService.patchProduct(productId, dto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
 }
 
 /**
@@ -57,5 +68,5 @@ public class ProductController {
  * 2. Try to take input as headers
  * 3. Implement Update and PUT functionalities **
  * 4. Think of a way which helps us to return some response back to client
- *      in case of errors.
+ * in case of errors.
  */
