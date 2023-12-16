@@ -1,5 +1,6 @@
 package com.example.productservice_wfs.fakestoreapi;
 
+import com.example.productservice_wfs.models.Category;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,5 +11,5 @@ public class FakeStoreProductRequestDTO {
     Double price;
     String description;
     String image;
-    String category;
+    Category category;
 }

@@ -14,11 +14,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class ProductService implements IProductService {
+public class FakeStoreProductService implements IProductService {
 
     RestTemplateBuilder restTemplate;
 
-    public ProductService(RestTemplateBuilder restTemplate) {
+
+    public FakeStoreProductService(RestTemplateBuilder restTemplate) {
         this.restTemplate = restTemplate;
     }
 
