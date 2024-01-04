@@ -5,14 +5,14 @@ import com.example.productservice_wfs.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This is in house product service, this will interact with your DB.
  */
 @Service
 public class SelfProductService implements IProductService {
-
-    ProductRepository repo;
+    private ProductRepository repo;
 
     public SelfProductService(ProductRepository repo) {
         this.repo = repo;
@@ -20,8 +20,8 @@ public class SelfProductService implements IProductService {
 
     @Override
     public Product getProductById(Long productId) {
-        Product p = repo.findByProductId(productId);
-        return p;
+        Optional<Product> p = repo.findById(productId);
+        return p.get();
     }
 
     @Override

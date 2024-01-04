@@ -1,9 +1,9 @@
 package com.example.productservice_wfs.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import java.util.List;
 
 @Data
