@@ -4,7 +4,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Data;
 
-@Entity(name = "single_mentors")
+@Entity(name = "joint_mentors")
 @Data
 @DiscriminatorValue(value = "2")
 public class Mentor extends User {

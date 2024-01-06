@@ -1,7 +1,6 @@
 package com.example.productservice_wfs.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
@@ -10,7 +9,8 @@ import java.util.List;
 @Entity // category
 public class Category extends BaseModel {
     private String name;
+
     private String description;
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Product> products;
 }

@@ -3,7 +3,7 @@ package com.example.productservice_wfs.inheritance.joint;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity(name = "single_users")
+@Entity(name = "joint_users")
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.INTEGER)
