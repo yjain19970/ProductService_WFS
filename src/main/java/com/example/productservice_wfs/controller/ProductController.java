@@ -5,6 +5,7 @@ import com.example.productservice_wfs.dto.ProductResponseDTO;
 import com.example.productservice_wfs.mapper.ProductMapper;
 import com.example.productservice_wfs.models.Product;
 import com.example.productservice_wfs.service.IProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import java.util.Objects;
 public class ProductController {
     private IProductService productService;
 
-    public ProductController(IProductService productService) {
+    public ProductController(@Qualifier(value="selfProductService") IProductService productService) {
         this.productService = productService;
     }
 

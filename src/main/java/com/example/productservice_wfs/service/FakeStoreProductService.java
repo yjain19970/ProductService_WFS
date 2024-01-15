@@ -8,11 +8,12 @@ import com.example.productservice_wfs.utility.HttpUtil;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
 
+@Component("fakeStoreProductService")
 public class FakeStoreProductService implements IProductService {
 
     RestTemplateBuilder restTemplate;

@@ -2,6 +2,7 @@ package com.example.productservice_wfs.service;
 
 import com.example.productservice_wfs.models.Product;
 import com.example.productservice_wfs.repository.ProductRepository;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Optional;
 /**
  * This is in house product service, this will interact with your DB.
  */
-@Service
+@Component("selfProductService")
 public class SelfProductService implements IProductService {
     private ProductRepository repo;
 
