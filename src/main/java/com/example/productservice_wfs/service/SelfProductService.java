@@ -2,6 +2,7 @@ package com.example.productservice_wfs.service;
 
 import com.example.productservice_wfs.models.Product;
 import com.example.productservice_wfs.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +12,12 @@ import java.util.Optional;
 /**
  * This is in house product service, this will interact with your DB.
  */
-@Component("selfProductService")
+//@Component("selfProductService")
+@Service
 public class SelfProductService implements IProductService {
     private ProductRepository repo;
 
+    @Autowired
     public SelfProductService(ProductRepository repo) {
         this.repo = repo;
     }
@@ -37,7 +40,7 @@ public class SelfProductService implements IProductService {
 }
 /**
  * HOMEWORK -> 16/12/2023
- *
+ * <p>
  * 1. Implement all the functions + Save functionality as well
  * 2. CAREFUL --> Find How to Pass Implemention for
  * These type of errors `Could not autowire. There is more than one bean of 'IProductService' type.`

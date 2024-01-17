@@ -5,7 +5,6 @@ import com.example.productservice_wfs.dto.ProductResponseDTO;
 import com.example.productservice_wfs.mapper.ProductMapper;
 import com.example.productservice_wfs.models.Product;
 import com.example.productservice_wfs.service.IProductService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ import java.util.Objects;
 public class ProductController {
     private IProductService productService;
 
-    public ProductController(@Qualifier(value="selfProductService") IProductService productService) {
+    public ProductController(IProductService productService) {
         this.productService = productService;
     }
 
@@ -29,6 +28,8 @@ public class ProductController {
     public HttpEntity<ProductResponseDTO> getProductById(@PathVariable("productId") Long productId)
             throws Exception {
         try {
+
+            System.out.println("ProductService -- " + productService);
             Product data = productService.getProductById(productId);
             if (Objects.isNull(data)) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -37,11 +38,18 @@ public class ProductController {
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             headers.add("class-name", "integrating APIS");
 
-            ProductResponseDTO dto = ProductMapper.getProductResponseDTOFromProduct(data);
+            ProductResponseDTO dto = getProductResponseDTOFromProduct(data);
+            System.out.println("fetched dto ----> " + dto);
             return new ResponseEntity<>(dto, headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public ProductResponseDTO getProductResponseDTOFromProduct(Product product) {
+        ProductResponseDTO dto = new ProductResponseDTO();
+        dto.setTitle(product.getTitle());
+        return dto;
     }
 
     @GetMapping("/")

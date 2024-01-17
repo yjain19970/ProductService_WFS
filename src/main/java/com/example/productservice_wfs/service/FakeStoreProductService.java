@@ -5,6 +5,7 @@ import com.example.productservice_wfs.fakestoreapi.FakeStoreProductResponse;
 import com.example.productservice_wfs.mapper.ProductMapper;
 import com.example.productservice_wfs.models.Product;
 import com.example.productservice_wfs.utility.HttpUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +14,13 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 
-@Component("fakeStoreProductService")
+//@Component("fakeStoreProductService")
 public class FakeStoreProductService implements IProductService {
 
     RestTemplateBuilder restTemplate;
 
 
+    @Autowired
     public FakeStoreProductService(RestTemplateBuilder restTemplate) {
         this.restTemplate = restTemplate;
     }

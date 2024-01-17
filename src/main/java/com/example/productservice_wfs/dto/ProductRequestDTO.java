@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ProductRequestDTO {
-    private String productName;
-    private String category;
-    private String imageURL;
-    private Double price;
+    public String productName;
+    public String category;
+    public String imageURL;
+    public Double price;
 }
