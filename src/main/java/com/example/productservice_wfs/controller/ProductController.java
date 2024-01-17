@@ -41,7 +41,12 @@ public class ProductController {
             ProductResponseDTO dto = getProductResponseDTOFromProduct(data);
             System.out.println("fetched dto ----> " + dto);
             return new ResponseEntity<>(dto, headers, HttpStatus.OK);
+        } catch (ArithmeticException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
+            //throw e;
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -49,6 +54,8 @@ public class ProductController {
     public ProductResponseDTO getProductResponseDTOFromProduct(Product product) {
         ProductResponseDTO dto = new ProductResponseDTO();
         dto.setTitle(product.getTitle());
+        dto.setPrice(product.getPrice());
+        dto.setId(product.getId());
         return dto;
     }
 
