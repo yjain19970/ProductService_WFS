@@ -3,7 +3,6 @@ package com.example.productservice_wfs.service;
 import com.example.productservice_wfs.models.Product;
 import com.example.productservice_wfs.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +23,7 @@ public class SelfProductService implements IProductService {
 
     @Override
     public Product getProductById(Long productId) {
+        // authorization code here.
         Optional<Product> p = repo.findById(productId);
         return p.get();
     }
@@ -36,6 +36,27 @@ public class SelfProductService implements IProductService {
     @Override
     public Product patchProduct(Long productId, Product dto) throws Exception {
         return null;
+    }
+
+    /**
+     * bad func added by intern.
+     *
+     * @param id
+     * @param dto
+     * @return
+     */
+    public Product createOrGet(Long id, Product dto) {
+        Optional<Product> p = repo.findById(id); // ALREADY ADDED
+        if (p.isPresent()) {
+            return p.get();
+        }
+
+        // new piece of code that you added.
+        repo.save(dto); // JUST ADD A MOCK FUNC TO THIS.
+        Optional<Product> latestProduct = repo.findById(id); //
+
+        return latestProduct.get();
+        //return new Product();
     }
 }
 /**

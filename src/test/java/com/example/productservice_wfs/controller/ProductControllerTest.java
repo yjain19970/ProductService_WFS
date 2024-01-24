@@ -3,7 +3,8 @@ package com.example.productservice_wfs.controller;
 import com.example.productservice_wfs.dto.ProductResponseDTO;
 import com.example.productservice_wfs.models.Product;
 import com.example.productservice_wfs.service.SelfProductService;
-import org.aspectj.lang.annotation.Before;
+import com.example.productservice_wfs.stub.ProductServiceStub;
+import com.example.productservice_wfs.validator.CreateProductValidator;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class ProductControllerTest {
@@ -43,6 +44,8 @@ public class ProductControllerTest {
 
         when(selfProductService.getProductById(1L)).thenReturn(p);
         HttpEntity<ProductResponseDTO> dto = pc.getProductById(1L);
+
+        verify(selfProductService, times(1)).getProductById(1L);
 
         //assert
         assertNotNull(dto);
@@ -86,4 +89,27 @@ public class ProductControllerTest {
         assertThrows(RuntimeException.class, () -> pc.getProductById(any(Long.class)));
 
     }
+
+    @Test // AAA
+    public void getProductByIdTestUsingStub() throws Exception {
+        ProductServiceStub productServiceStub = new ProductServiceStub();
+        ProductController pc = new ProductController(productServiceStub);
+
+        HttpEntity<ProductResponseDTO> dto = pc.getProductById(1L);
+
+        //assert
+        assertNotNull(dto);
+    }
+
+    @Test // AAA
+    public void testForAllFunc() throws Exception {
+
+        /**
+         * 1. save
+         * 2. fetch
+         * 3. update
+         */
+    }
+
+
 }
