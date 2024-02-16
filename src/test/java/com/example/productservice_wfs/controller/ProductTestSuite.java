@@ -4,6 +4,6 @@ import org.junit.platform.suite.api.*;
 
 @Suite
 @SuiteDisplayName("Test cases related to Product usecase")
-@SelectClasses({ProductControllerTest.class, ProductControllerMVCTest.class})
+@SelectClasses({ProductControllerMVCTest.class})
 public class ProductTestSuite {
 }

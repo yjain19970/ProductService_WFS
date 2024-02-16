@@ -33,16 +33,9 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public HttpEntity<ProductResponseDTO> getProductById(@PathVariable("productId") Long productId,
-                                                         @Nullable @RequestHeader(HttpHeaders.AUTHORIZATION)
-                                                                 String token)
+    public HttpEntity<ProductResponseDTO> getProductById(@PathVariable("productId") Long productId)
             throws Exception {
         try {
-
-            if (!validateToken(token)) {
-                return new ResponseEntity<>(HttpStatus.TEMPORARY_REDIRECT);
-            }
-
             Product data = productService.getProductById(productId);
             if (Objects.isNull(data)) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -61,25 +54,6 @@ public class ProductController {
             //throw e;
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    private boolean validateToken(String token) {
-        if (Objects.isNull(token)) {
-            return false;
-        }
-        /**
-         * add your custom logic here
-         */
-        Optional<JwtDTO> jwtDTO = tokenValidatorService.validateToken(token);
-        if (jwtDTO.isEmpty()) {
-            return false;
-        }
-
-        /**
-         * proceed with any specific validations if you want to do.
-         */
-
-        return true;
     }
 
     public ProductResponseDTO getProductResponseDTOFromProduct(Product product) {
